@@ -26,7 +26,7 @@ struct OpenWeatherResponse: Decodable {
         case temperature = "temp"
         case humidity
         case lowTemp = "temp_min"
-        case highTemp = "tmep_max"
+        case highTemp = "temp_max"
     }
     
     enum WindKeys: String, CodingKey {
@@ -47,7 +47,8 @@ struct OpenWeatherResponse: Decodable {
     init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: TopLevelKeys.self)
         
-        let weatherContainer = try values.nestedContainer(keyedBy: WeatherKeys.self, forKey: .weather)
+        var unkeyedWeatherContainer = try values.nestedUnkeyedContainer(forKey: .weather)
+        let weatherContainer = try unkeyedWeatherContainer.nestedContainer(keyedBy: WeatherKeys.self)//try values.nestedContainer(keyedBy: WeatherKeys.self, forKey: .weather)
         self.weatherDescription = try weatherContainer.decode(String.self, forKey: .description)
         let imageName = try weatherContainer.decode(String.self, forKey: .icon)
         self.iconURL = OpenWeatherResponse.iconBaseURL.appendingPathExtension(imageName)
