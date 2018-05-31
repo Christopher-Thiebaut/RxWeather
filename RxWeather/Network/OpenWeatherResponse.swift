@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct OpenWeatherResponse: Decodable {
+public struct OpenWeatherResponse: Decodable {
     
     enum TopLevelKeys: String, CodingKey {
         case weather
@@ -42,16 +42,16 @@ struct OpenWeatherResponse: Decodable {
     var currentWindSpeed: Float
     var calculationTime: TimeInterval
     
-    private static let iconBaseURL = URL(string: "http://openweathermap.org/img/w")!
+    public static let iconBaseURL = URL(string: "http://openweathermap.org/img/w")!
     
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: TopLevelKeys.self)
         
         var unkeyedWeatherContainer = try values.nestedUnkeyedContainer(forKey: .weather)
         let weatherContainer = try unkeyedWeatherContainer.nestedContainer(keyedBy: WeatherKeys.self)//try values.nestedContainer(keyedBy: WeatherKeys.self, forKey: .weather)
         self.weatherDescription = try weatherContainer.decode(String.self, forKey: .description)
         let imageName = try weatherContainer.decode(String.self, forKey: .icon)
-        self.iconURL = OpenWeatherResponse.iconBaseURL.appendingPathExtension(imageName)
+        self.iconURL = OpenWeatherResponse.iconBaseURL.appendingPathComponent(imageName).appendingPathExtension("png")
         
         let mainContainer = try values.nestedContainer(keyedBy: MainKeys.self, forKey: .main)
         self.currentTemperature = try mainContainer.decode(Float.self, forKey: .temperature)

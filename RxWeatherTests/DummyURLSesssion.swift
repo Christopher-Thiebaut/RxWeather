@@ -6,8 +6,8 @@
 //  Copyright © 2018 Christopher Thiebaut. All rights reserved.
 //
 
-import Foundation
-import RxWeather
+import UIKit
+@testable import RxWeather
 
 class DummyURLSession: URLSessionProtocol {
     let sampleData = """
@@ -26,19 +26,42 @@ class DummyURLSession: URLSessionProtocol {
                             "cod":200}
                             """.data(using: .ascii)
     
+    let emptyImage = UIImage.emptyImage(with: CGSize(width: 10, height: 10))
+    
     enum DummySessionErrors: Error {
         case intentionalError(String)
+        case unintentionalError(String)
     }
     
     /**
         This data task does nothing and will pass sample data to the completion handler that is from the OpenWeatherApi when this test class was written if the provided URL contains the word 'success' and will pass an error to the completion handler.  It does nothing with the URL response as the class it was designed to test doesn't do anything with that either.
      */
     func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTaskProtocol {
-        guard let urlString = request.url?.absoluteString, urlString.contains("success") else {
+        guard let urlString = request.url?.absoluteString else {
+            completionHandler(nil, nil, DummySessionErrors.unintentionalError("URL was left blank."))
+            return DummyDataTask()
+        }
+        let successURL = urlString.contains("success") || urlString.contains(OpenWeatherResponse.iconBaseURL.absoluteString)
+        guard successURL else {
             completionHandler(nil, nil, DummySessionErrors.intentionalError("This is a simulated error because the target URL did not contain the string 'success'"))
             return DummyDataTask()
         }
-        completionHandler(sampleData, nil, nil)
+        if urlString.contains(OpenWeatherResponse.iconBaseURL.absoluteString){
+            completionHandler(UIImagePNGRepresentation(emptyImage!), nil, nil)
+        }else{
+            completionHandler(sampleData, nil, nil)
+        }
         return DummyDataTask()
     }
+}
+
+extension UIImage {
+    
+    static func emptyImage(with size: CGSize) -> UIImage? {
+        UIGraphicsBeginImageContext(size)
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
+    
 }

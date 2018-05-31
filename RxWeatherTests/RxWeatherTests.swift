@@ -25,16 +25,23 @@ class RxWeatherTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
-    
-    func testOpenWeatherApiInterfaceFetch() {
+    func testOpenWeatherApiFetch() {
+        let imageFound = expectation(description: "Image found")
         let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
-        openWeatherApi.weather(for: "success").subscribe(onNext: { (weather) in
-            XCTAssert(weather != nil)
+        let weatherSubject: PublishSubject<Weather> = PublishSubject()
+        weatherSubject.subscribe(onNext: { (weather) in
+            openWeatherApi.icon(with: weather.imageURL)
+                .subscribe(onNext: { (image) in
+                    XCTAssert(image != nil)
+                    imageFound.fulfill()
+                }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
+        openWeatherApi.weather(for: "success").subscribe(onNext: { (weather) in
+            if let weather = weather {
+                weatherSubject.onNext(weather)
+            }
+        }).disposed(by: disposeBag)
+        wait(for: [imageFound], timeout: 5)
     }
     
     func testOpenWeatherComplete() {
@@ -50,7 +57,7 @@ class RxWeatherTests: XCTestCase {
         let dataFetchCompletes = expectation(description: "Fetch Completes")
         let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
         let testApiRequest = OpenWeatherRequest(parameters: ["1":"success"])
-        openWeatherApi.makeDataRequest(testApiRequest).subscribe(onCompleted: {
+        openWeatherApi.makeDataRequest(testApiRequest, with: openWeatherApi.baseURL).subscribe(onCompleted: {
             dataFetchCompletes.fulfill()
         }).disposed(by: disposeBag)
         wait(for: [dataFetchCompletes], timeout: 5)

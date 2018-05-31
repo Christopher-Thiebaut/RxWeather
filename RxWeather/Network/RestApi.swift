@@ -13,16 +13,15 @@ import RxCocoa
 protocol RestApi: class {
 
     var session:  URLSessionProtocol { get }
-    var baseURL: URL { get }
     init(session: URLSessionProtocol)
-    func makeDataRequest(_ request: ApiRequest) -> Observable<Data>
+    func makeDataRequest(_ request: ApiRequest, with baseURL: URL) -> Observable<Data>
 }
 
 extension RestApi {
     
-    func makeDataRequest(_ request: ApiRequest) -> Observable<Data> {
+    func makeDataRequest(_ request: ApiRequest, with baseURL: URL) -> Observable<Data> {
         return Observable.create({[unowned self] (observer) -> Disposable in
-            guard  let urlRequest = request.urlRequest(with: self.baseURL) else {
+            guard  let urlRequest = request.urlRequest(with: baseURL) else {
                 observer.onError(ApiError.InvalidRequestError("The provided ApiRequest cannot be translated into a valid query."))
                 return Disposables.create()
             }

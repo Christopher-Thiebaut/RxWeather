@@ -6,7 +6,7 @@
 //  Copyright © 2018 Christopher Thiebaut. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import RxCocoa
 import RxSwift
 
@@ -29,13 +29,22 @@ class OpenWeatherApi: RestApi {
     func weather(for city: String) -> Observable<Weather?> {
         let requestParameters = [queryName:city].merging(defaultQueryParameters, uniquingKeysWith: {(oldValue, newValue) in return oldValue})
         let request = OpenWeatherRequest(parameters: requestParameters)
-        let weather = makeDataRequest(request).map { (data) -> Weather? in
+        let weather = makeDataRequest(request, with: baseURL).map { (data) -> Weather? in
             guard let openWeatherResponse = (try? JSONDecoder().decode(OpenWeatherResponse.self, from: data)) else {
                 return nil
             }
             return Weather(openWeatherResponse: openWeatherResponse)
         }
         return weather
+    }
+    
+    func icon(with url: URL) -> Observable<UIImage?> {
+        let imageRequest = OpenWeatherRequest(parameters: [:])
+        let imageObservable = makeDataRequest(imageRequest, with: url).map { (data) -> UIImage? in
+            let image = UIImage(data: data)
+            return image
+        }
+        return imageObservable
     }
 }
 
