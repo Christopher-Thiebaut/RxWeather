@@ -7,9 +7,13 @@
 //
 
 import XCTest
+import RxCocoa
+import RxSwift
 @testable import RxWeather
 
 class RxWeatherTests: XCTestCase {
+    
+    let disposeBag = DisposeBag()
     
     override func setUp() {
         super.setUp()
@@ -26,8 +30,30 @@ class RxWeatherTests: XCTestCase {
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
     
-    func testOpenWeatherApiInterface() {
-        
+    func testOpenWeatherApiInterfaceFetch() {
+        let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
+        openWeatherApi.weather(for: "success").subscribe(onNext: { (weather) in
+            XCTAssert(weather != nil)
+        }).disposed(by: disposeBag)
+    }
+    
+    func testOpenWeatherComplete() {
+        let observableCompleted = expectation(description: "Observable completes.")
+        let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
+        openWeatherApi.weather(for: "success").subscribe(onCompleted: {
+            observableCompleted.fulfill()
+        }).disposed(by: disposeBag)
+        wait(for: [observableCompleted], timeout: 5)
+    }
+    
+    func testDataFetchCompletes() {
+        let dataFetchCompletes = expectation(description: "Fetch Completes")
+        let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
+        let testApiRequest = OpenWeatherRequest(parameters: ["1":"success"])
+        openWeatherApi.makeDataRequest(testApiRequest).subscribe(onCompleted: {
+            dataFetchCompletes.fulfill()
+        }).disposed(by: disposeBag)
+        wait(for: [dataFetchCompletes], timeout: 5)
     }
     
     func testOpenWeatherResponseDecoding() {

@@ -33,11 +33,13 @@ extension RestApi {
                 }
                 if let data = data {
                     observer.onNext(data)
+                    observer.onCompleted()
                     return
                 }else{
                     observer.onError(ApiError.NoDataInResponse())
                 }
             })
+            networkRequest.resume()
             let wrapUpTasks = Disposables.create {
                 networkRequest.cancel()
             }
