@@ -26,7 +26,7 @@ class OpenWeatherApi: RestApi {
         self.session = session
     }
     
-    func weather(for city: String) -> Observable<Weather?> {
+    func weather(for city: String) -> Observable<Weather> {
         let requestParameters = [queryName:city].merging(defaultQueryParameters, uniquingKeysWith: {(oldValue, newValue) in return oldValue})
         let request = OpenWeatherRequest(parameters: requestParameters)
         let weather = makeDataRequest(request, with: baseURL).map { (data) -> Weather? in
@@ -34,7 +34,9 @@ class OpenWeatherApi: RestApi {
                 return nil
             }
             return Weather(openWeatherResponse: openWeatherResponse)
-        }
+            }.filter { (weather) -> Bool in
+                weather != nil
+        }.map({return $0!})
         return weather
     }
     

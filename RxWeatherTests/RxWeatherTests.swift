@@ -37,9 +37,7 @@ class RxWeatherTests: XCTestCase {
                 }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)
         openWeatherApi.weather(for: "success").subscribe(onNext: { (weather) in
-            if let weather = weather {
-                weatherSubject.onNext(weather)
-            }
+            weatherSubject.onNext(weather)
         }).disposed(by: disposeBag)
         wait(for: [imageFound], timeout: 5)
     }
