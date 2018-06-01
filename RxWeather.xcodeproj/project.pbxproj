@@ -129,14 +129,10 @@
 		B3038FEF20BDD6AB0031D76B /* RxWeather */ = {
 			isa = PBXGroup;
 			children = (
-				B3038FF020BDD6AB0031D76B /* AppDelegate.swift */,
-				B3038FF220BDD6AB0031D76B /* ViewController.swift */,
-				B3038FF420BDD6AB0031D76B /* Main.storyboard */,
-				B3038FF720BDD6AB0031D76B /* Assets.xcassets */,
-				B3038FF920BDD6AB0031D76B /* LaunchScreen.storyboard */,
-				B3038FFC20BDD6AB0031D76B /* Info.plist */,
-				B3AFA61A20BF6781003DA7A3 /* Network */,
-				B3AFA61D20BF6D85003DA7A3 /* Weather.swift */,
+				B3EEB85B20C1E3B2005FDE25 /* Views */,
+				B3EEB85A20C1E39E005FDE25 /* ViewControllers */,
+				B3EEB85820C1E369005FDE25 /* Model */,
+				B3EEB85920C1E38B005FDE25 /* Resources */,
 			);
 			path = RxWeather;
 			sourceTree = "<group>";
@@ -164,6 +160,50 @@
 				B3158ADE20C05F7900F62AEB /* URLSessionDataTaskProtocol.swift */,
 			);
 			path = Network;
+			sourceTree = "<group>";
+		};
+		B3EEB85820C1E369005FDE25 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B3AFA61A20BF6781003DA7A3 /* Network */,
+				B3AFA61D20BF6D85003DA7A3 /* Weather.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		B3EEB85920C1E38B005FDE25 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B3038FF020BDD6AB0031D76B /* AppDelegate.swift */,
+				B3038FF720BDD6AB0031D76B /* Assets.xcassets */,
+				B3038FF920BDD6AB0031D76B /* LaunchScreen.storyboard */,
+				B3038FFC20BDD6AB0031D76B /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		B3EEB85A20C1E39E005FDE25 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				B3038FF220BDD6AB0031D76B /* ViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		B3EEB85B20C1E3B2005FDE25 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B3EEB85C20C1E3CE005FDE25 /* Storyboards */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B3EEB85C20C1E3CE005FDE25 /* Storyboards */ = {
+			isa = PBXGroup;
+			children = (
+				B3038FF420BDD6AB0031D76B /* Main.storyboard */,
+			);
+			path = Storyboards;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
