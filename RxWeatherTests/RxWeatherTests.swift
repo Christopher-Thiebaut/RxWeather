@@ -32,7 +32,6 @@ class RxWeatherTests: XCTestCase {
         weatherSubject.subscribe(onNext: { (weather) in
             openWeatherApi.icon(with: weather.imageURL)
                 .subscribe(onNext: { (image) in
-                    XCTAssert(image != nil)
                     imageFound.fulfill()
                 }).disposed(by: self.disposeBag)
         }).disposed(by: disposeBag)

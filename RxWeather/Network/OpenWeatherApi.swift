@@ -34,18 +34,16 @@ class OpenWeatherApi: RestApi {
                 return nil
             }
             return Weather(openWeatherResponse: openWeatherResponse)
-            }.filter { (weather) -> Bool in
-                weather != nil
-        }.map({return $0!})
+            }.filter {$0 != nil}.map({return $0!})
         return weather
     }
     
-    func icon(with url: URL) -> Observable<UIImage?> {
+    func icon(with url: URL) -> Observable<UIImage> {
         let imageRequest = OpenWeatherRequest(parameters: [:])
         let imageObservable = makeDataRequest(imageRequest, with: url).map { (data) -> UIImage? in
             let image = UIImage(data: data)
             return image
-        }
+            }.filter({$0 != nil}).map({$0!})
         return imageObservable
     }
 }
