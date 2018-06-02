@@ -10,7 +10,7 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class OpenWeatherApi: RestApi {
+class OpenWeatherApi: RestApiClient {
     var session: URLSessionProtocol
     
     enum Units: String {

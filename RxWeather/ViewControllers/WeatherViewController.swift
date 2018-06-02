@@ -14,6 +14,7 @@ class WeatherViewController: UIViewController {
     
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
+    @IBOutlet weak var cityNameLabel: UILabel!
     
     private let disposeBag = DisposeBag()
     

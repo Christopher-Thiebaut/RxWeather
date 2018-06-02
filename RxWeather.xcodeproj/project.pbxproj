@@ -13,11 +13,12 @@
 		B3038FF820BDD6AB0031D76B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3038FF720BDD6AB0031D76B /* Assets.xcassets */; };
 		B3038FFB20BDD6AB0031D76B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3038FF920BDD6AB0031D76B /* LaunchScreen.storyboard */; };
 		B303900620BDD6AC0031D76B /* RxWeatherTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B303900520BDD6AC0031D76B /* RxWeatherTests.swift */; };
+		B30E56A420C34D460040559E /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30E56A320C34D460040559E /* WeatherViewModel.swift */; };
 		B3158ADF20C05F7900F62AEB /* URLSessionDataTaskProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3158ADE20C05F7900F62AEB /* URLSessionDataTaskProtocol.swift */; };
 		B3158AE120C0629F00F62AEB /* DummyDataTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3158AE020C0629F00F62AEB /* DummyDataTask.swift */; };
 		B3AFA60D20BEF432003DA7A3 /* ApiRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFA60C20BEF432003DA7A3 /* ApiRequest.swift */; };
 		B3AFA60F20BF0192003DA7A3 /* OpenWeatherApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFA60E20BF0192003DA7A3 /* OpenWeatherApi.swift */; };
-		B3AFA61120BF0389003DA7A3 /* RestApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFA61020BF0389003DA7A3 /* RestApi.swift */; };
+		B3AFA61120BF0389003DA7A3 /* RestApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFA61020BF0389003DA7A3 /* RestApiClient.swift */; };
 		B3AFA61520BF18A0003DA7A3 /* URLSessionProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFA61420BF18A0003DA7A3 /* URLSessionProtocol.swift */; };
 		B3AFA61720BF1C44003DA7A3 /* DummyURLSesssion.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFA61620BF1C44003DA7A3 /* DummyURLSesssion.swift */; };
 		B3AFA61C20BF67BE003DA7A3 /* OpenWeatherResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3AFA61B20BF67BE003DA7A3 /* OpenWeatherResponse.swift */; };
@@ -53,11 +54,12 @@
 		B303900120BDD6AC0031D76B /* RxWeatherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RxWeatherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B303900520BDD6AC0031D76B /* RxWeatherTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxWeatherTests.swift; sourceTree = "<group>"; };
 		B303900720BDD6AC0031D76B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B30E56A320C34D460040559E /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		B3158ADE20C05F7900F62AEB /* URLSessionDataTaskProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionDataTaskProtocol.swift; sourceTree = "<group>"; };
 		B3158AE020C0629F00F62AEB /* DummyDataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyDataTask.swift; sourceTree = "<group>"; };
 		B3AFA60C20BEF432003DA7A3 /* ApiRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiRequest.swift; sourceTree = "<group>"; };
 		B3AFA60E20BF0192003DA7A3 /* OpenWeatherApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherApi.swift; sourceTree = "<group>"; };
-		B3AFA61020BF0389003DA7A3 /* RestApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApi.swift; sourceTree = "<group>"; };
+		B3AFA61020BF0389003DA7A3 /* RestApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RestApiClient.swift; sourceTree = "<group>"; };
 		B3AFA61420BF18A0003DA7A3 /* URLSessionProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionProtocol.swift; sourceTree = "<group>"; };
 		B3AFA61620BF1C44003DA7A3 /* DummyURLSesssion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DummyURLSesssion.swift; sourceTree = "<group>"; };
 		B3AFA61B20BF67BE003DA7A3 /* OpenWeatherResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWeatherResponse.swift; sourceTree = "<group>"; };
@@ -155,7 +157,7 @@
 				B3AFA60E20BF0192003DA7A3 /* OpenWeatherApi.swift */,
 				B3AFA61B20BF67BE003DA7A3 /* OpenWeatherResponse.swift */,
 				B3AFA60C20BEF432003DA7A3 /* ApiRequest.swift */,
-				B3AFA61020BF0389003DA7A3 /* RestApi.swift */,
+				B3AFA61020BF0389003DA7A3 /* RestApiClient.swift */,
 				B3AFA61420BF18A0003DA7A3 /* URLSessionProtocol.swift */,
 				B3158ADE20C05F7900F62AEB /* URLSessionDataTaskProtocol.swift */,
 			);
@@ -167,6 +169,7 @@
 			children = (
 				B3AFA61A20BF6781003DA7A3 /* Network */,
 				B3AFA61D20BF6D85003DA7A3 /* Weather.swift */,
+				B30E56A320C34D460040559E /* WeatherViewModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -455,7 +458,8 @@
 				B3AFA61E20BF6D85003DA7A3 /* Weather.swift in Sources */,
 				B3AFA61C20BF67BE003DA7A3 /* OpenWeatherResponse.swift in Sources */,
 				B3AFA61520BF18A0003DA7A3 /* URLSessionProtocol.swift in Sources */,
-				B3AFA61120BF0389003DA7A3 /* RestApi.swift in Sources */,
+				B30E56A420C34D460040559E /* WeatherViewModel.swift in Sources */,
+				B3AFA61120BF0389003DA7A3 /* RestApiClient.swift in Sources */,
 				B3158ADF20C05F7900F62AEB /* URLSessionDataTaskProtocol.swift in Sources */,
 				B3038FF320BDD6AB0031D76B /* WeatherViewController.swift in Sources */,
 				B3038FF120BDD6AB0031D76B /* AppDelegate.swift in Sources */,

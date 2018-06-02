@@ -10,14 +10,14 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-protocol RestApi: class {
+protocol RestApiClient: class {
 
     var session:  URLSessionProtocol { get }
     init(session: URLSessionProtocol)
     func makeDataRequest(_ request: ApiRequest, with baseURL: URL) -> Observable<Data>
 }
 
-extension RestApi {
+extension RestApiClient {
     
     func makeDataRequest(_ request: ApiRequest, with baseURL: URL) -> Observable<Data> {
         return Observable.create({[unowned self] (observer) -> Disposable in
@@ -25,12 +25,14 @@ extension RestApi {
                 observer.onError(ApiError.InvalidRequestError("The provided ApiRequest cannot be translated into a valid query."))
                 return Disposables.create()
             }
-            let networkRequest = self.session.dataTask(with: urlRequest, completionHandler: { (data, urlResponse, error) in
+            let networkRequest = self.session.dataTask(with: urlRequest, completionHandler: { (data, response, error) in
                 guard error == nil else {
                     observer.onError(error!)
                     return
                 }
-                if let data = data {
+                if let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode < 200 || httpResponse.statusCode > 299 {
+                    observer.onError(ApiError.InvalidResponse("Received invalid http response: \(httpResponse.statusCode)"))
+                } else if let data = data {
                     observer.onNext(data)
                     observer.onCompleted()
                     return

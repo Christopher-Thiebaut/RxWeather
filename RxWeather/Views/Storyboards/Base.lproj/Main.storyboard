@@ -18,22 +18,50 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8B-9w-sjw">
-                                <rect key="frame" x="67" y="241" width="42" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="vUq-x2-2BU">
+                                <rect key="frame" x="0.0" y="28" width="375" height="56"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </searchBar>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="4Bz-XU-opE">
+                                <rect key="frame" x="105" y="100" width="165" height="50.5"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(City Context)" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fsc-0e-IUA">
+                                        <rect key="frame" x="0.0" y="15" width="107" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qOo-Fb-ndx">
+                                        <rect key="frame" x="115" y="0.0" width="50" height="50.5"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="0Bo-4o-ZEh"/>
+                                            <constraint firstAttribute="height" constant="50" id="bUf-CR-cPr"/>
+                                        </constraints>
+                                    </imageView>
+                                </subviews>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8B-9w-sjw">
+                                <rect key="frame" x="16" y="166.5" width="42" height="20.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qOo-Fb-ndx">
-                                <rect key="frame" x="67" y="83" width="240" height="128"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="x8B-9w-sjw" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="Lf0-9y-tIn"/>
+                            <constraint firstItem="4Bz-XU-opE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Mwh-S9-nTt"/>
+                            <constraint firstItem="4Bz-XU-opE" firstAttribute="top" secondItem="vUq-x2-2BU" secondAttribute="bottom" constant="16" id="SyP-cf-6SR"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="x8B-9w-sjw" secondAttribute="trailing" constant="16" id="USU-Dw-huJ"/>
+                            <constraint firstItem="vUq-x2-2BU" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="8" id="bAl-gr-0ut"/>
+                            <constraint firstItem="x8B-9w-sjw" firstAttribute="top" secondItem="4Bz-XU-opE" secondAttribute="bottom" constant="16" id="dR3-sP-M5h"/>
+                            <constraint firstItem="vUq-x2-2BU" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="uVB-F6-soZ"/>
+                            <constraint firstItem="vUq-x2-2BU" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="upB-YX-8Sc"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
+                        <outlet property="cityNameLabel" destination="fsc-0e-IUA" id="I5F-9h-HVS"/>
                         <outlet property="descriptionLabel" destination="x8B-9w-sjw" id="l1X-5T-AfN"/>
                         <outlet property="iconImageView" destination="qOo-Fb-ndx" id="Ru4-qx-gsz"/>
                     </connections>
