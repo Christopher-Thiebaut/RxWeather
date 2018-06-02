@@ -42,7 +42,7 @@ public struct OpenWeatherResponse: Decodable {
     var currentWindSpeed: Float
     var calculationTime: TimeInterval
     
-    public static let iconBaseURL = URL(string: "http://openweathermap.org/img/w")!
+    public static let iconBaseURL = URL(string: "https://openweathermap.org/img/w")!
     
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: TopLevelKeys.self)

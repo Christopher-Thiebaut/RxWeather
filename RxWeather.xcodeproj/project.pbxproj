@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		B3038FF120BDD6AB0031D76B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3038FF020BDD6AB0031D76B /* AppDelegate.swift */; };
-		B3038FF320BDD6AB0031D76B /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3038FF220BDD6AB0031D76B /* ViewController.swift */; };
+		B3038FF320BDD6AB0031D76B /* WeatherViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3038FF220BDD6AB0031D76B /* WeatherViewController.swift */; };
 		B3038FF620BDD6AB0031D76B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3038FF420BDD6AB0031D76B /* Main.storyboard */; };
 		B3038FF820BDD6AB0031D76B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B3038FF720BDD6AB0031D76B /* Assets.xcassets */; };
 		B3038FFB20BDD6AB0031D76B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B3038FF920BDD6AB0031D76B /* LaunchScreen.storyboard */; };
@@ -45,7 +45,7 @@
 		A3BAFCD70367FC91C45DF6F4 /* Pods_RxWeather.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RxWeather.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3038FED20BDD6AB0031D76B /* RxWeather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RxWeather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B3038FF020BDD6AB0031D76B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B3038FF220BDD6AB0031D76B /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B3038FF220BDD6AB0031D76B /* WeatherViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewController.swift; sourceTree = "<group>"; };
 		B3038FF520BDD6AB0031D76B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B3038FF720BDD6AB0031D76B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B3038FFA20BDD6AB0031D76B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -185,7 +185,7 @@
 		B3EEB85A20C1E39E005FDE25 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				B3038FF220BDD6AB0031D76B /* ViewController.swift */,
+				B3038FF220BDD6AB0031D76B /* WeatherViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -457,7 +457,7 @@
 				B3AFA61520BF18A0003DA7A3 /* URLSessionProtocol.swift in Sources */,
 				B3AFA61120BF0389003DA7A3 /* RestApi.swift in Sources */,
 				B3158ADF20C05F7900F62AEB /* URLSessionDataTaskProtocol.swift in Sources */,
-				B3038FF320BDD6AB0031D76B /* ViewController.swift in Sources */,
+				B3038FF320BDD6AB0031D76B /* WeatherViewController.swift in Sources */,
 				B3038FF120BDD6AB0031D76B /* AppDelegate.swift in Sources */,
 				B3AFA60D20BEF432003DA7A3 /* ApiRequest.swift in Sources */,
 				B3AFA62020BF72C2003DA7A3 /* OpenWeatherRequest.swift in Sources */,
@@ -626,7 +626,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JM5E6M7XJW;
-				INFOPLIST_FILE = RxWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/RxWeather/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -645,7 +645,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = JM5E6M7XJW;
-				INFOPLIST_FILE = RxWeather/Info.plist;
+				INFOPLIST_FILE = "$(SRCROOT)/RxWeather/Resources/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

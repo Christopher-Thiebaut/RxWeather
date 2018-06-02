@@ -18,11 +18,11 @@ class OpenWeatherApi: RestApi {
         case metric
     }
     
-    var baseURL: URL = URL(string: "api.openweathermap.org/data")!
+    var baseURL: URL = URL(string: "https://api.openweathermap.org/data/2.5/weather")!
     private let queryName = "q"
     private let defaultQueryParameters = ["units":Units.imperial.rawValue,"appid":"868cbfc82ba196afbd20641467c11898"]
     
-    required init(session: URLSessionProtocol) {
+    required init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
     }
     
