@@ -27,10 +27,10 @@ class RxWeatherTests: XCTestCase {
     
     func testOpenWeatherApiFetch() {
         let imageFound = expectation(description: "Image found")
-        let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
+        let openWeatherApi = OpenWeatherApiClient(session: DummyURLSession())
         let weatherSubject: PublishSubject<Weather> = PublishSubject()
         weatherSubject.subscribe(onNext: { (weather) in
-            openWeatherApi.icon(with: weather.imageURL)
+            openWeatherApi.image(with: weather.imageURL)
                 .subscribe(onNext: { (image) in
                     imageFound.fulfill()
                 }).disposed(by: self.disposeBag)
@@ -43,7 +43,7 @@ class RxWeatherTests: XCTestCase {
     
     func testOpenWeatherComplete() {
         let observableCompleted = expectation(description: "Observable completes.")
-        let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
+        let openWeatherApi = OpenWeatherApiClient(session: DummyURLSession())
         openWeatherApi.weather(for: "success").subscribe(onCompleted: {
             observableCompleted.fulfill()
         }).disposed(by: disposeBag)
@@ -52,7 +52,7 @@ class RxWeatherTests: XCTestCase {
     
     func testDataFetchCompletes() {
         let dataFetchCompletes = expectation(description: "Fetch Completes")
-        let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
+        let openWeatherApi = OpenWeatherApiClient(session: DummyURLSession())
         let testApiRequest = OpenWeatherRequest(parameters: ["q":"success"])
         openWeatherApi.makeDataRequest(testApiRequest, with: openWeatherApi.baseURL).subscribe(onCompleted: {
             dataFetchCompletes.fulfill()
@@ -80,17 +80,23 @@ class RxWeatherTests: XCTestCase {
         XCTAssert(weatherResponse != nil)
     }
     
-    func testViewModelDescription() {
+    func testViewModelDescriptionAndImageFetched() {
         let descriptionUpdatedExpection = expectation(description: "Description Updated")
         descriptionUpdatedExpection.expectedFulfillmentCount = 2
-        let weatherViewModel = WeatherViewModel(session: DummyURLSession())
+        let imageFetchedExpectation = expectation(description: "Image fetched")
+        imageFetchedExpectation.expectedFulfillmentCount = 2
+        let weatherClient = OpenWeatherApiClient(session: DummyURLSession())
+        let weatherViewModel = WeatherViewModel(weatherSource: weatherClient)
         weatherViewModel.description.subscribe(onNext: { (description) in
             NSLog("\(description)")
             descriptionUpdatedExpection.fulfill()
         }).disposed(by: disposeBag)
+        weatherViewModel.image.subscribe(onNext: { (image) in
+            imageFetchedExpectation.fulfill()
+        }).disposed(by: disposeBag)
         let dummySearchInfo = Observable.just("success")
         dummySearchInfo.bind(to: weatherViewModel.location).disposed(by: disposeBag)
-        wait(for: [descriptionUpdatedExpection], timeout: 5)
+        wait(for: [descriptionUpdatedExpection, imageFetchedExpectation], timeout: 5)
     }
     
 }

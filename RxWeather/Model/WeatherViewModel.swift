@@ -11,12 +11,11 @@ import RxSwift
 
 class WeatherViewModel {
     
-    let weatherClient: OpenWeatherApi
+    let weatherClient: WeatherApiClient
     
     private var imageVariable: Variable<UIImage> = Variable(UIImage())
     private var descriptionVariable: Variable<String> = Variable("")
     private var disposeBag = DisposeBag()
-    private let session: URLSessionProtocol
     
     lazy var image = imageVariable.asObservable()
     lazy var description = descriptionVariable.asObservable()
@@ -32,9 +31,8 @@ class WeatherViewModel {
         })
     }
     
-    init(session: URLSessionProtocol = URLSession.shared) {
-        self.session = session
-        self.weatherClient = OpenWeatherApi(session: session)
+    init(weatherSource: WeatherApiClient) {
+        self.weatherClient = weatherSource
     }
     
     private func updateWeather(forCityName cityName: String) {
@@ -61,7 +59,7 @@ class WeatherViewModel {
     
     private func updateWeatherImage(imageURL: URL){
         weatherClient
-            .icon(with: imageURL)
+            .image(with: imageURL)
             .subscribe(onNext: {[weak self] (image) in
                 self?.imageVariable.value = image
                 }, onError: { (error) in

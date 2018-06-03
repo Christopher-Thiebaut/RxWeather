@@ -10,15 +10,16 @@ import UIKit
 import RxCocoa
 import RxSwift
 
-class OpenWeatherApi: RestApiClient {
+class OpenWeatherApiClient: RestApiClient, WeatherApiClient {
+    
     var session: URLSessionProtocol
+    let baseURL: URL = URL(string: "https://api.openweathermap.org/data/2.5/weather")!
     
     enum Units: String {
         case imperial
         case metric
     }
     
-    var baseURL: URL = URL(string: "https://api.openweathermap.org/data/2.5/weather")!
     private let queryName = "q"
     private let defaultQueryParameters = ["units":Units.imperial.rawValue,"appid":"868cbfc82ba196afbd20641467c11898"]
     
@@ -38,7 +39,7 @@ class OpenWeatherApi: RestApiClient {
         return weather
     }
     
-    func icon(with url: URL) -> Observable<UIImage> {
+    func image(with url: URL) -> Observable<UIImage> {
         let imageRequest = OpenWeatherRequest(parameters: [:])
         let imageObservable = makeDataRequest(imageRequest, with: url).map { (data) -> UIImage? in
             let image = UIImage(data: data)
