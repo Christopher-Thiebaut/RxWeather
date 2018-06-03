@@ -53,7 +53,7 @@ class RxWeatherTests: XCTestCase {
     func testDataFetchCompletes() {
         let dataFetchCompletes = expectation(description: "Fetch Completes")
         let openWeatherApi = OpenWeatherApi(session: DummyURLSession())
-        let testApiRequest = OpenWeatherRequest(parameters: ["1":"success"])
+        let testApiRequest = OpenWeatherRequest(parameters: ["q":"success"])
         openWeatherApi.makeDataRequest(testApiRequest, with: openWeatherApi.baseURL).subscribe(onCompleted: {
             dataFetchCompletes.fulfill()
         }).disposed(by: disposeBag)
@@ -78,6 +78,19 @@ class RxWeatherTests: XCTestCase {
                             """.data(using: .ascii)
         let weatherResponse = (try? JSONDecoder().decode(OpenWeatherResponse.self,from: sampleResponse!))
         XCTAssert(weatherResponse != nil)
+    }
+    
+    func testViewModelDescription() {
+        let descriptionUpdatedExpection = expectation(description: "Description Updated")
+        descriptionUpdatedExpection.expectedFulfillmentCount = 2
+        let weatherViewModel = WeatherViewModel(session: DummyURLSession())
+        weatherViewModel.description.subscribe(onNext: { (description) in
+            NSLog("\(description)")
+            descriptionUpdatedExpection.fulfill()
+        }).disposed(by: disposeBag)
+        let dummySearchInfo = Observable.just("success")
+        dummySearchInfo.bind(to: weatherViewModel.location).disposed(by: disposeBag)
+        wait(for: [descriptionUpdatedExpection], timeout: 5)
     }
     
 }
