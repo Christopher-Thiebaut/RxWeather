@@ -15,6 +15,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var cityNameLabel: UILabel!
+    @IBOutlet weak var searchBar: UISearchBar!
     
     private var weatherViewModel: WeatherViewModel = WeatherViewModel(weatherSource: OpenWeatherApiClient())
     private let disposeBag = DisposeBag()
@@ -23,32 +24,23 @@ class WeatherViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        subscribeToWeather()
+        bindSearchTextToViewModel()
+        bindViewModelToViews()
     }
     
-    func subscribeToWeather() {
-        searchTermStream.bind(to: weatherViewModel.location).disposed(by: disposeBag)
+    func bindSearchTextToViewModel(){
+        searchBar.rx.text.asObservable()
+            .map({$0?.lowercased() ?? ""})
+            .debounce(0.3, scheduler: MainScheduler.instance)
+            .distinctUntilChanged()
+            .bind(to: weatherViewModel.location)
+            .disposed(by: disposeBag)
+    }
+    
+    func bindViewModelToViews() {
         weatherViewModel.description.bind(to: descriptionLabel.rx.text).disposed(by: disposeBag)
         weatherViewModel.image.bind(to: iconImageView.rx.image).disposed(by: disposeBag)
     }
-    
-//    func subcscribeToWeather(for city: String){
-//        let openWeatherApi = OpenWeatherApiClient()
-//        openWeatherApi.weather(for: city)
-//            .observeOn(MainScheduler.instance)
-//            .subscribe(onNext: {[weak self] (weather) in
-//                self?.descriptionLabel.text = weather.description
-//                guard let disposeBag = self?.disposeBag else { return }
-//                openWeatherApi.image(with: weather.imageURL)
-//                    .observeOn(MainScheduler.instance)
-//                    .subscribe(onNext: { (image) in
-//                    self?.iconImageView.image = image
-//                }).disposed(by: disposeBag)
-//                }, onError: { (error) in
-//                    //TODO:/ More robust error handling here
-//                    print("Error fetching weather: \(error.localizedDescription)")
-//            }).disposed(by: disposeBag)
-//    }
 
 }
 
