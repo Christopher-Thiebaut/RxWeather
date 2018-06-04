@@ -6,7 +6,7 @@
 //  Copyright © 2018 Christopher Thiebaut. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 struct Weather {
     let currentTemp: Float
@@ -16,4 +16,5 @@ struct Weather {
     let windSpeed: Float
     let description: String
     let imageURL: URL
+    let locationName: String
 }

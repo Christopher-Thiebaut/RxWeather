@@ -15,6 +15,7 @@ public struct OpenWeatherResponse: Decodable {
         case main
         case wind
         case calculationTime = "dt"
+        case name
     }
     
     enum WeatherKeys: String, CodingKey {
@@ -41,6 +42,7 @@ public struct OpenWeatherResponse: Decodable {
     var dailyHighTemp: Float
     var currentWindSpeed: Float
     var calculationTime: TimeInterval
+    var name: String
     
     public static let iconBaseURL = URL(string: "https://openweathermap.org/img/w")!
     
@@ -63,6 +65,8 @@ public struct OpenWeatherResponse: Decodable {
         self.currentWindSpeed = try windContainer.decode(Float.self, forKey: .speed)
         
         self.calculationTime = try values.decode(TimeInterval.self, forKey: .calculationTime)
+        
+        self.name = try values.decode(String.self, forKey: .name)
     }
     
 }

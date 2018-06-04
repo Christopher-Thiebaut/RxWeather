@@ -95,7 +95,7 @@ class RxWeatherTests: XCTestCase {
             imageFetchedExpectation.fulfill()
         }).disposed(by: disposeBag)
         let dummySearchInfo = Observable.just("success")
-        dummySearchInfo.bind(to: weatherViewModel.location).disposed(by: disposeBag)
+        dummySearchInfo.bind(to: weatherViewModel.locationInput).disposed(by: disposeBag)
         wait(for: [descriptionUpdatedExpection, imageFetchedExpectation], timeout: 5)
     }
     

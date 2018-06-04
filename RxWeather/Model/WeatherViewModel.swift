@@ -15,12 +15,14 @@ class WeatherViewModel {
     
     private var imageVariable: Variable<UIImage> = Variable(UIImage())
     private var descriptionVariable: Variable<String> = Variable("")
+    private var locationNameVariable: Variable<String> = Variable("")
     private var disposeBag = DisposeBag()
     
     lazy var image = imageVariable.asObservable()
     lazy var description = descriptionVariable.asObservable()
+    lazy var locationName = locationNameVariable.asObservable()
     
-    var location: AnyObserver<String> {
+    var locationInput: AnyObserver<String> {
         return  AnyObserver(eventHandler: {[weak self] (event) in
             switch event {
             case .next(let cityName):
@@ -55,6 +57,12 @@ class WeatherViewModel {
                     //TODO: Handle Error
             })
             .disposed(by: disposeBag)
+        weather.map({$0.locationName})
+            .subscribe(onNext: {[weak self] (locationName) in
+                self?.locationNameVariable.value = locationName
+                }, onError: { (error) in
+                    //TODO: Handle Error
+            }).disposed(by: disposeBag)
     }
     
     private func updateWeatherImage(imageURL: URL){

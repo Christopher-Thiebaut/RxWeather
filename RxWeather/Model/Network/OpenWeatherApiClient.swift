@@ -51,6 +51,6 @@ class OpenWeatherApiClient: RestApiClient, WeatherApiClient {
 
 extension Weather {
     init(openWeatherResponse: OpenWeatherResponse) {
-        self.init(currentTemp: openWeatherResponse.currentTemperature, lowTemp: openWeatherResponse.dailyLowTemp, highTemp: openWeatherResponse.dailyHighTemp, humidity: openWeatherResponse.currentHumidity, windSpeed: openWeatherResponse.currentWindSpeed, description: openWeatherResponse.weatherDescription, imageURL: openWeatherResponse.iconURL)
+        self.init(currentTemp: openWeatherResponse.currentTemperature, lowTemp: openWeatherResponse.dailyLowTemp, highTemp: openWeatherResponse.dailyHighTemp, humidity: openWeatherResponse.currentHumidity, windSpeed: openWeatherResponse.currentWindSpeed, description: openWeatherResponse.weatherDescription, imageURL: openWeatherResponse.iconURL, locationName: openWeatherResponse.name)
     }
 }

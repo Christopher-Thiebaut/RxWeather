@@ -33,13 +33,14 @@ class WeatherViewController: UIViewController {
             .map({$0?.lowercased() ?? ""})
             .debounce(0.3, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
-            .bind(to: weatherViewModel.location)
+            .bind(to: weatherViewModel.locationInput)
             .disposed(by: disposeBag)
     }
     
     func bindViewModelToViews() {
         weatherViewModel.description.bind(to: descriptionLabel.rx.text).disposed(by: disposeBag)
         weatherViewModel.image.bind(to: iconImageView.rx.image).disposed(by: disposeBag)
+        weatherViewModel.locationName.bind(to: cityNameLabel.rx.text).disposed(by: disposeBag)
     }
 
 }
