@@ -17,10 +17,12 @@ class WeatherViewModel {
     private var descriptionVariable: Variable<String> = Variable("")
     private var locationNameVariable: Variable<String> = Variable("")
     private var disposeBag = DisposeBag()
+    private var weatherLoading: Variable<Bool> = Variable(false)
     
     lazy var image = imageVariable.asObservable()
     lazy var description = descriptionVariable.asObservable()
     lazy var locationName = locationNameVariable.asObservable()
+    lazy var isLoading = weatherLoading.asObservable()
     
     var locationInput: AnyObserver<String> {
         return  AnyObserver(eventHandler: {[weak self] (event) in
@@ -41,27 +43,18 @@ class WeatherViewModel {
         let weather = weatherClient.weather(for: cityName)
             .observeOn(MainScheduler.instance)
             .share()
+        weatherLoading.value = true
+
         weather
-            .map({return $0.description})
-            .subscribe(onNext: {[self] (weatherDescription) in
-                self.descriptionVariable.value = weatherDescription
-            }, onError: { (error) in
-                //TODO: handle error
-            })
-            .disposed(by: disposeBag)
-        weather
-            .map({$0.imageURL})
-            .subscribe(onNext: {[weak self] (url) in
-                self?.updateWeatherImage(imageURL: url)
-                }, onError: { (error) in
-                    //TODO: Handle Error
-            })
-            .disposed(by: disposeBag)
-        weather.map({$0.locationName})
-            .subscribe(onNext: {[weak self] (locationName) in
-                self?.locationNameVariable.value = locationName
-                }, onError: { (error) in
-                    //TODO: Handle Error
+            .subscribe(onNext: {[weak self] (weather) in
+                self?.descriptionVariable.value = weather.description
+                self?.locationNameVariable.value = weather.locationName
+                self?.updateWeatherImage(imageURL: weather.imageURL)
+                }, onError: {[weak self] (error) in
+                    self?.setVariableValuesForError()
+                    self?.weatherLoading.value = false
+                }, onCompleted: { [weak self] in
+                    self?.weatherLoading.value = false
             }).disposed(by: disposeBag)
     }
     
@@ -70,9 +63,15 @@ class WeatherViewModel {
             .image(with: imageURL)
             .subscribe(onNext: {[weak self] (image) in
                 self?.imageVariable.value = image
-                }, onError: { (error) in
-                    //TODO: Handle Error
+                }, onError: {[weak self] (error) in
+                    self?.imageVariable.value = #imageLiteral(resourceName: "no_image")
             })
             .disposed(by: disposeBag)
+    }
+    
+    private func setVariableValuesForError() {
+        locationNameVariable.value = "Error"
+        descriptionVariable.value = "Error fetching weather"
+        imageVariable.value = #imageLiteral(resourceName: "no_image")
     }
 }
