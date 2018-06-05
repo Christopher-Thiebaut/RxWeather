@@ -15,6 +15,11 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var iconImageView: UIImageView!
     @IBOutlet weak var descriptionLabel: UILabel!
     @IBOutlet weak var cityNameLabel: UILabel!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var highTempLabel: UILabel!
+    @IBOutlet weak var lowTempLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
+    @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var searchBar: UISearchBar!
     
     private var weatherViewModel: WeatherViewModel = WeatherViewModel(weatherSource: OpenWeatherApiClient())
@@ -30,17 +35,27 @@ class WeatherViewController: UIViewController {
     
     func bindSearchTextToViewModel(){
         searchBar.rx.text.asObservable()
-            .map({$0?.lowercased() ?? ""})
-            .debounce(0.3, scheduler: MainScheduler.instance)
+            .map({$0?.uppercased() ?? ""})
+            .filter({!$0.isEmpty})
+            .debounce(0.5, scheduler: MainScheduler.instance)
             .distinctUntilChanged()
             .bind(to: weatherViewModel.locationInput)
             .disposed(by: disposeBag)
     }
     
     func bindViewModelToViews() {
-        weatherViewModel.description.bind(to: descriptionLabel.rx.text).disposed(by: disposeBag)
+        weatherViewModel.description.map({$0.uppercased()}).bind(to: descriptionLabel.rx.text).disposed(by: disposeBag)
         weatherViewModel.image.bind(to: iconImageView.rx.image).disposed(by: disposeBag)
         weatherViewModel.locationName.bind(to: cityNameLabel.rx.text).disposed(by: disposeBag)
+        bindImperialTemperature(weatherViewModel.temperature, toLabel: temperatureLabel)
+        bindImperialTemperature(weatherViewModel.lowTemp, toLabel: lowTempLabel)
+        bindImperialTemperature(weatherViewModel.highTemp, toLabel: highTempLabel)
+        weatherViewModel.humidity.map({"\($0)%"}).bind(to: humidityLabel.rx.text).disposed(by: disposeBag)
+        weatherViewModel.windSpeed.map({"\($0) mph"}).bind(to: windSpeedLabel.rx.text).disposed(by: disposeBag)
+    }
+    
+    private func bindImperialTemperature(_ temperature: Observable<Float>, toLabel label: UILabel) {
+        temperature.map({"\($0) °F"}).bind(to: label.rx.text).disposed(by: disposeBag)
     }
 
 }

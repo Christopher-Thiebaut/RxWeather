@@ -16,12 +16,24 @@ class WeatherViewModel {
     private var imageVariable: Variable<UIImage> = Variable(UIImage())
     private var descriptionVariable: Variable<String> = Variable("")
     private var locationNameVariable: Variable<String> = Variable("")
-    private var disposeBag = DisposeBag()
+    private var temperatureVariable: Variable<Float> = Variable(0)
+    private var lowTempVariable: Variable<Float> = Variable(0)
+    private var highTempVariable: Variable<Float> = Variable(0)
+    private var humidityVariable: Variable<Float> = Variable(0)
+    private var windSpeedVariable: Variable<Float> = Variable(0)
     private var weatherLoading: Variable<Bool> = Variable(false)
+    
+    private var disposeBag = DisposeBag()
+    private var lastSearchTerm = Variable("")
     
     lazy var image = imageVariable.asObservable()
     lazy var description = descriptionVariable.asObservable()
     lazy var locationName = locationNameVariable.asObservable()
+    lazy var temperature = temperatureVariable.asObservable()
+    lazy var lowTemp = lowTempVariable.asObservable()
+    lazy var highTemp = highTempVariable.asObservable()
+    lazy var humidity = humidityVariable.asObservable()
+    lazy var windSpeed = windSpeedVariable.asObservable()
     lazy var isLoading = weatherLoading.asObservable()
     
     var locationInput: AnyObserver<String> {
@@ -29,6 +41,7 @@ class WeatherViewModel {
             switch event {
             case .next(let cityName):
                 self?.updateWeather(forCityName: cityName)
+                self?.lastSearchTerm.value = cityName
             default:
                 break
             }
@@ -50,6 +63,11 @@ class WeatherViewModel {
                 self?.descriptionVariable.value = weather.description
                 self?.locationNameVariable.value = weather.locationName
                 self?.updateWeatherImage(imageURL: weather.imageURL)
+                self?.temperatureVariable.value = weather.currentTemp
+                self?.lowTempVariable.value = weather.lowTemp
+                self?.highTempVariable.value = weather.highTemp
+                self?.humidityVariable.value = weather.humidity
+                self?.windSpeedVariable.value = weather.windSpeed
                 }, onError: {[weak self] (error) in
                     self?.setVariableValuesForError()
                     self?.weatherLoading.value = false
@@ -70,7 +88,7 @@ class WeatherViewModel {
     }
     
     private func setVariableValuesForError() {
-        locationNameVariable.value = "Error"
+        locationNameVariable.value = lastSearchTerm.value
         descriptionVariable.value = "Error fetching weather"
         imageVariable.value = #imageLiteral(resourceName: "no_image")
     }
