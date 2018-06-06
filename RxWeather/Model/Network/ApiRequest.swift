@@ -29,8 +29,6 @@ extension ApiRequest {
         }
         var request = URLRequest(url: requestURL)
         request.httpMethod = method.rawValue
-        //This informs the server that our client will understand a json response to our request
-//        request.addValue("application/json", forHTTPHeaderField: "Accept")
         return request
     }
     

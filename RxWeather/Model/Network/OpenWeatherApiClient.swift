@@ -21,7 +21,7 @@ class OpenWeatherApiClient: RestApiClient, WeatherApiClient {
     }
     
     private let queryName = "q"
-    private let defaultQueryParameters = ["units":Units.imperial.rawValue,"appid":"868cbfc82ba196afbd20641467c11898"]
+    private let defaultQueryParameters = ["units":Units.imperial.rawValue,"appid":"Your own Api Key here"]
     
     required init(session: URLSessionProtocol = URLSession.shared) {
         self.session = session
